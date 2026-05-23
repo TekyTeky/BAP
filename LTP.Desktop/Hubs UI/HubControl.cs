@@ -23,7 +23,8 @@ namespace LegoTrainProject
 		private TrainProject Project;
 		
 		HubEditor Editor;
-		bool hubIsTrain = false;
+        public event Action<Hub, int> MoveRequested;
+        bool hubIsTrain = false;
 
 		public delegate void RefreshTrainLabelThreadSafeDelegate(Hub train);
 		public delegate void RefreshUIThreadSafeDelegate();
@@ -442,7 +443,21 @@ namespace LegoTrainProject
 			//modified by Tom Cook to increase width to show Volts and mAmps even when no devices attached to hub
 			//MainBoard.SetControlPropertyThreadSafe(this, "Width", (width < 110) ? 110 : width);
 			MainBoard.SetControlPropertyThreadSafe(this, "Width", (width < 140) ? 140 : width);
-		}
+            Button buttonMoveLeft = new Button();
+            buttonMoveLeft.Text = "◄";
+            buttonMoveLeft.Width = 30;
+            buttonMoveLeft.Height = 23;
+            buttonMoveLeft.Click += (s, e) => MoveRequested?.Invoke(Hub, -1);
+
+            Button buttonMoveRight = new Button();
+            buttonMoveRight.Text = "►";
+            buttonMoveRight.Width = 30;
+            buttonMoveRight.Height = 23;
+            buttonMoveRight.Click += (s, e) => MoveRequested?.Invoke(Hub, 1);
+
+            MainBoard.AddControlToFlowPanel(flowLayoutPanel1, buttonMoveLeft, false);
+            MainBoard.AddControlToFlowPanel(flowLayoutPanel1, buttonMoveRight, true);
+        }
 
 		private void ButtonPlayLight_Click(object sender, EventArgs e)
 		{

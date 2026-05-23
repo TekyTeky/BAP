@@ -319,6 +319,15 @@ namespace LegoTrainProject
 			return newTrain;
         }
 
+        private void OnHubMoveRequested(Hub hub, int direction)
+        {
+            int index = currentProject.RegisteredTrains.IndexOf(hub);
+            int newIndex = index + direction;
+            if (newIndex < 0 || newIndex >= currentProject.RegisteredTrains.Count) return;
+            currentProject.RegisteredTrains.RemoveAt(index);
+            currentProject.RegisteredTrains.Insert(newIndex, hub);
+            InitializeUIForNewProject();
+        }
         private void AddTrainToFlowLayout(Hub newHub)
         {
 
@@ -330,9 +339,10 @@ namespace LegoTrainProject
 
 			// Make sure to be aware of any data changes on the hub
 			hubControl.PortTypeRefreshed += RefreshAllTrainEventCombox;
+            hubControl.MoveRequested += OnHubMoveRequested;
 
-			// Add the control
-			AddControlToFlowPanel(flowLayoutTrainsPanel, hubControl, true);
+            // Add the control
+            AddControlToFlowPanel(flowLayoutTrainsPanel, hubControl, true);
 
 			// Update the Label
 			hubControl.UpdateLabels();
