@@ -51,7 +51,8 @@ namespace LegoTrainProject
 
 		private void InitControl()
 		{
-			int width = 0;
+
+            int width = 0;
 
 			foreach (Port p in Hub.RegistredPorts)
 			{
@@ -95,7 +96,7 @@ namespace LegoTrainProject
 							//added by Tom Cook to set color to match MU function
 							tb.TickStyle = TickStyle.Both;
 							tb.BackColor = p.MUbackcolor;
-							
+
 							// Connect the trackbar to the label
 							labelSpeed.Tag = tb;
 							p.label = labelSpeed;
@@ -109,12 +110,12 @@ namespace LegoTrainProject
 							buttonStop.Width = 50;
 							//added by Tom Cook to pull up Stop button a little
 							buttonStop.Margin = new Padding(0, 0, 0, 0);
-							
+
 							MainBoard.AddControlToFlowPanel(flowLayoutPanel1, pb, false);
 							MainBoard.AddControlToFlowPanel(flowLayoutPanel1, labelSpeed, false);
 							MainBoard.AddControlToFlowPanel(flowLayoutPanel1, tb, false);
 							MainBoard.AddControlToFlowPanel(flowLayoutPanel1, buttonStop, true);
-		
+
 							break;
 						}
 					case Port.Functions.SWITCH_DOUBLECROSS:
@@ -263,7 +264,7 @@ namespace LegoTrainProject
 								MainBoard.AddControlToFlowPanel(flowLayoutPanel1, labelColor, true);
 
 
-								break;
+							break;
 						}
 					case Port.Functions.LIGHT:
 						{
@@ -440,26 +441,34 @@ namespace LegoTrainProject
 				}
 			}
 
-			//modified by Tom Cook to increase width to show Volts and mAmps even when no devices attached to hub
+			//modified by TekyTek to add the move arrows and Tom Cook to increase width to show Volts and mAmps even when no devices attached to hub
 			//MainBoard.SetControlPropertyThreadSafe(this, "Width", (width < 110) ? 110 : width);
-			MainBoard.SetControlPropertyThreadSafe(this, "Width", (width < 140) ? 140 : width);
+			MainBoard.SetControlPropertyThreadSafe(this, "Width", (width < 160) ? 160 : width);
+            MainBoard.SetControlPropertyThreadSafe(this, "Height", 310);
+
             Button buttonMoveLeft = new Button();
             buttonMoveLeft.Text = "◄";
-            buttonMoveLeft.Width = 30;
-            buttonMoveLeft.Height = 23;
+            buttonMoveLeft.Width = 40;
+            buttonMoveLeft.Height = 20;
+            buttonMoveLeft.Location = new Point(10, 276);
             buttonMoveLeft.Click += (s, e) => MoveRequested?.Invoke(Hub, -1);
 
             Button buttonMoveRight = new Button();
             buttonMoveRight.Text = "►";
-            buttonMoveRight.Width = 30;
-            buttonMoveRight.Height = 23;
+            buttonMoveRight.Width = 40;
+            buttonMoveRight.Height = 20;
+            buttonMoveRight.Location = new Point(53, 276);
             buttonMoveRight.Click += (s, e) => MoveRequested?.Invoke(Hub, 1);
 
-            MainBoard.AddControlToFlowPanel(flowLayoutPanel1, buttonMoveLeft, false);
-            MainBoard.AddControlToFlowPanel(flowLayoutPanel1, buttonMoveRight, true);
+            this.Controls.Add(buttonMoveLeft);
+            this.Controls.Add(buttonMoveRight);
+            buttonMoveLeft.BringToFront();
+            buttonMoveRight.BringToFront();
+            buttonMoveLeft.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            buttonMoveRight.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
         }
 
-		private void ButtonPlayLight_Click(object sender, EventArgs e)
+        private void ButtonPlayLight_Click(object sender, EventArgs e)
 		{
 			ComboBox files = (ComboBox)((Control)sender).Tag;
 			PFxHub pFxHub = (PFxHub)Hub;
