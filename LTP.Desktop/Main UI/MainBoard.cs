@@ -59,13 +59,13 @@ namespace LegoTrainProject
         public static bool showColorDebug = false;
 		public ConnectionLimitationSettings connectionLimitationSettings;
 		public static bool showBLEDebug = false;
-		//modified by Tom Cook for version change
-		public string Version = "V1.6 - 09/30/20";
-		/// <summary>
-		/// Constructor
-		/// </summary>
+        //modified by Tom Cook for version change
+        public string Version = "V1.61 - 24/05/26";
+        /// <summary>
+        /// Constructor
+        /// </summary>
 
-		public MainBoard()
+        public MainBoard()
         {
             try
             {

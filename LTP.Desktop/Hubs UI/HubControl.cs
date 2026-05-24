@@ -460,10 +460,22 @@ namespace LegoTrainProject
             buttonMoveRight.Location = new Point(53, 276);
             buttonMoveRight.Click += (s, e) => MoveRequested?.Invoke(Hub, 1);
 
-            this.Controls.Add(buttonMoveLeft);
-            this.Controls.Add(buttonMoveRight);
-            buttonMoveLeft.BringToFront();
-            buttonMoveRight.BringToFront();
+            if (this.InvokeRequired)
+            {
+                this.Invoke((Action)(() => {
+                    this.Controls.Add(buttonMoveLeft);
+                    this.Controls.Add(buttonMoveRight);
+                    buttonMoveLeft.BringToFront();
+                    buttonMoveRight.BringToFront();
+                }));
+            }
+            else
+            {
+                this.Controls.Add(buttonMoveLeft);
+                this.Controls.Add(buttonMoveRight);
+                buttonMoveLeft.BringToFront();
+                buttonMoveRight.BringToFront();
+            }
             buttonMoveLeft.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             buttonMoveRight.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
         }
